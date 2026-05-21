@@ -59,7 +59,7 @@ Boris is one file. Put it where Claude Code keeps its agents.
 
 **The techy way** (if you know git):
 ```
-mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton/boris/main/boris.md -o ~/.claude/agents/boris.md
+mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton8/boris/main/boris.md -o ~/.claude/agents/boris.md
 ```
 
 ### Step 4 — Run Boris
@@ -436,4 +436,4 @@ Be honest, be fast, be useful. That's the whole job.
 
 ---
 
-*Source of truth + updates: github.com/benlawton/boris*
+*Source of truth + updates: github.com/benlawton8/boris*

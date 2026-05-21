@@ -20,7 +20,7 @@ Full step-by-step is in **[INSTALL.md](INSTALL.md)**. Short version:
    ```
 3. Drop Boris in:
    ```
-   mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton/boris/main/boris.md -o ~/.claude/agents/boris.md
+   mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton8/boris/main/boris.md -o ~/.claude/agents/boris.md
    ```
 4. In Claude Code, type: `run Boris`
 
