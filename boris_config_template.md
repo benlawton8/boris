@@ -35,10 +35,10 @@ Boris fills this in during the first-run wizard. After that he reads it every ti
 - **Plan**: <free | pro>
 
 ## Their best organic reels (last 90 days)
-<Boris auto-fills: shortcode — views — caption snippet. Refresh every few weeks.>
+<Boris auto-fills: shortcode - views - caption snippet. Refresh every few weeks.>
 
 ## Live campaigns
-<Boris auto-fills as he builds: campaign name — ID — status — budget.>
+<Boris auto-fills as he builds: campaign name - ID - status - budget.>
 
 ## Notes
 <Anything Boris learns about this account that future-Boris should know.>

@@ -1,17 +1,17 @@
-# Boris 🤖 — your Instagram ads agent
+# Boris - your Instagram ads agent
 
 Boris is a Claude Code agent that builds and runs Instagram follower ads for videographers and creatives.
 
 He runs a 3-stage local funnel:
-- **Cold** — win new followers in your area
-- **Retargeting** — catch people who looked but didn't follow
-- **Warm funnel** — turn followers into leads
+- Cold - win new followers in your area
+- Retargeting - catch people who looked but didn't follow
+- Warm funnel - turn followers into leads
 
-He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. He never spends money or changes a campaign without you saying yes.
+He targets the local service-based businesses who hire videographers - not other videographers. He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. He never spends money or changes a campaign without you saying yes.
 
 ## Install
 
-Full step-by-step is in **[INSTALL.md](INSTALL.md)**. Short version:
+Full step-by-step is in [INSTALL.md](INSTALL.md). Short version:
 
 1. Make a Pipeboard account at [pipeboard.co](https://pipeboard.co)
 2. Connect it to Claude Code:
@@ -43,4 +43,4 @@ Boris walks you through the rest.
 
 ## Built by
 
-Ben Lawton / Self Made Creatives — for the videography coaching masterclass.
+Ben Lawton / Self Made Creatives - for the videography coaching masterclass.
