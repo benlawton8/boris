@@ -139,28 +139,25 @@ Use `mcp__pipeboard-meta-ads__search_interests`, `search_behaviors`, `search_dem
 
 **Campaign:** OUTCOME_TRAFFIC, CBO (one budget for the campaign), daily budget from config, bid strategy LOWEST_COST_WITHOUT_CAP. Also set a lifetime `spend_cap` at 10x the daily budget as a safety net.
 
-**Ad set:** PROFILE_VISIT optimisation, INSTAGRAM_PROFILE destination. Spec:
+**Ad set:** optimise for `VISIT_INSTAGRAM_PROFILE`. This is the single most important setting - it is the goal Meta uses for real follower growth, and it reports cost per profile visit / follow. Do NOT use `PROFILE_VISIT` (a generic goal that just buys cheap clicks and never shows follows). Do NOT set `destination_type` and do NOT set `promoted_object` - leave them off. Spec:
 ```json
 {
-  "optimization_goal": "PROFILE_VISIT",
+  "optimization_goal": "VISIT_INSTAGRAM_PROFILE",
   "billing_event": "IMPRESSIONS",
-  "destination_type": "INSTAGRAM_PROFILE",
-  "promoted_object": {"page_id": "<their page id>"},
   "attribution_spec": [{"event_type": "CLICK_THROUGH", "window_days": 1}],
   "dsa_beneficiary": "<their business name>",
   "dsa_payor": "<their business name>",
   "targeting": {
-    "age_min": 25, "age_max": 65,
+    "age_min": 25, "age_max": 45,
     "geo_locations": {"custom_locations": [{"key": "<their location>", "radius": <miles>, "distance_unit": "mile"}]},
     "flexible_spec": [ <built from the table above> ],
-    "targeting_automation": {"advantage_audience": 1},
-    "publisher_platforms": ["instagram"],
-    "instagram_positions": ["stream", "ig_search", "story", "reels", "profile_feed"],
-    "device_platforms": ["mobile", "desktop"]
+    "targeting_optimization": "none",
+    "targeting_automation": {"advantage_audience": 0},
+    "publisher_platforms": ["instagram"]
   }
 }
 ```
-Targeting is LOCAL - `custom_locations` with their town + radius, NOT a whole country. This is the point: a local videographer only wants local followers.
+Targeting is LOCAL - `custom_locations` with their town + radius, NOT a whole country. Keep it tight: Advantage+ audience OFF, `targeting_optimization` none, a tight age band. A follower campaign wins by reaching the RIGHT few, not the cheap many. Broad targeting + Advantage+ buys cheap junk clicks that never follow.
 
 **Ads:** their top 5-7 organic reels. Pull them with `mcp__pipeboard-meta-ads__get_instagram_posts` (last 90 days), sort by views. Their best organic reels make the best ads. Show the person the list and let them approve.
 
@@ -229,8 +226,11 @@ The one exception: during first-run onboarding, once they've approved the cold c
 - `source_instagram_media_id` on the direct API -> blocked by app permissions. Don't.
 - The `meta` pip CLI -> same Tech Provider wall. Don't.
 
-### The PROFILE_VISIT inline-creative trick (most important thing in this file)
-When an ad set uses `optimization_goal: PROFILE_VISIT` + `destination_type: INSTAGRAM_PROFILE`:
+### Always optimise for VISIT_INSTAGRAM_PROFILE
+The ad set's `optimization_goal` MUST be `VISIT_INSTAGRAM_PROFILE`. That is the goal that grows real followers and lets Meta report cost per follow. `PROFILE_VISIT` is a different, generic goal - it buys cheap clicks, grows few followers, and never shows a follow number. If you ever see `PROFILE_VISIT` on an ad set, it is wrong.
+
+### The inline-creative trick (most important build step)
+When an ad set uses `optimization_goal: VISIT_INSTAGRAM_PROFILE`:
 - Making a creative first, then attaching it by `creative_id`, **FAILS** with error 1346001.
 - Putting the whole creative spec **inside** the ad-create call **WORKS**.
 - Pipeboard's `create_ad` only does the first (broken) way. So for PROFILE_VISIT ads, build them with a **direct Graph API call** with the creative inline.
