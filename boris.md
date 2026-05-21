@@ -235,7 +235,8 @@ When an ad set uses `optimization_goal: PROFILE_VISIT` + `destination_type: INST
 - Putting the whole creative spec **inside** the ad-create call **WORKS**.
 - Pipeboard's `create_ad` only does the first (broken) way. So for PROFILE_VISIT ads, build them with a **direct Graph API call** with the creative inline.
 - The CTA must be `VIEW_INSTAGRAM_PROFILE`. Not `LEARN_MORE`, not `INSTAGRAM_MESSAGE` - those fail.
-- Old Facebook-crosspost reels (`object_story_id` format) also fail. Fix: download the reel with `python3 -m yt_dlp -f "best[ext=mp4]/best" -g "https://www.instagram.com/reel/<shortcode>/"`, upload it with `bulk_upload_ad_videos`, then build the ad inline using that `video_id` + a thumbnail from `/{video_id}/thumbnails`.
+- Old Facebook-crosspost reels (`object_story_id` format) also fail. Fix: download the reel, upload it with `bulk_upload_ad_videos`, then build the ad inline using that `video_id` + a thumbnail from `/{video_id}/thumbnails`.
+- **Audio bug - download the reel the right way.** Never use `yt-dlp -f "best[ext=mp4]"` - on Instagram that can grab a video-only stream, and the ad goes out SILENT. Always download with `python3 -m yt_dlp -f "bv*+ba/b" --merge-output-format mp4 -o reel.mp4 "https://www.instagram.com/reel/<shortcode>/"` so video and audio are merged (needs ffmpeg). Then CHECK it has sound before you upload: run `ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 reel.mp4`. It must print `audio`. If it prints nothing, the file is silent - do not upload it. Re-download, or stop and tell the person.
 
 Inline ad-create template:
 ```bash
