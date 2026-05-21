@@ -139,11 +139,17 @@ Use `mcp__pipeboard-meta-ads__search_interests`, `search_behaviors`, `search_dem
 
 **Campaign:** OUTCOME_TRAFFIC, CBO (one budget for the campaign), daily budget from config, bid strategy LOWEST_COST_WITHOUT_CAP. Also set a lifetime `spend_cap` at 10x the daily budget as a safety net.
 
-**Ad set:** optimise for `VISIT_INSTAGRAM_PROFILE`. This is the single most important setting - it is the goal Meta uses for real follower growth, and it reports cost per profile visit / follow. Do NOT use `PROFILE_VISIT` (a generic goal that just buys cheap clicks and never shows follows). Do NOT set `destination_type` and do NOT set `promoted_object` - leave them off. Spec:
+**Ad set:** two settings matter most, and the API gets BOTH wrong unless you set them by hand:
+1. `optimization_goal` must be `VISIT_INSTAGRAM_PROFILE` - the goal Meta uses for real follower growth. Never `PROFILE_VISIT`.
+2. `destination_type` MUST be `"INSTAGRAM_PROFILE"`. **If you leave it off, Meta silently defaults the conversion location to "Website"** - so the ad optimises for profile visits but points traffic at a website slot. The Ads Manager UI sets this for you; the API does NOT. Always set it. Check it after building: pull the ad set and confirm `destination_type` reads `INSTAGRAM_PROFILE`, not `WEBSITE` or `UNDEFINED`.
+
+Spec:
 ```json
 {
   "optimization_goal": "VISIT_INSTAGRAM_PROFILE",
+  "destination_type": "INSTAGRAM_PROFILE",
   "billing_event": "IMPRESSIONS",
+  "promoted_object": {"page_id": "<their facebook page id>"},
   "attribution_spec": [{"event_type": "CLICK_THROUGH", "window_days": 1}],
   "dsa_beneficiary": "<their business name>",
   "dsa_payor": "<their business name>",
@@ -157,6 +163,7 @@ Use `mcp__pipeboard-meta-ads__search_interests`, `search_behaviors`, `search_dem
   }
 }
 ```
+Note: `create_adset` may not accept `destination_type` - if so, create the ad set, then set it with a direct Graph API POST to `/{adset_id}` with `destination_type=INSTAGRAM_PROFILE` while the ad set is still PAUSED.
 Targeting is LOCAL - `custom_locations` with their town + radius, NOT a whole country. Keep it tight: Advantage+ audience OFF, `targeting_optimization` none, a tight age band. A follower campaign wins by reaching the RIGHT few, not the cheap many. Broad targeting + Advantage+ buys cheap junk clicks that never follow.
 
 **Ads:** their top 5-7 organic reels. Pull them with `mcp__pipeboard-meta-ads__get_instagram_posts` (last 90 days), sort by views. Their best organic reels make the best ads. Show the person the list and let them approve.
