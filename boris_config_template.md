@@ -7,35 +7,37 @@ metadata:
 
 # Boris config
 
-Boris fills this in during the first-run wizard. After that he reads it every time and never asks again. Edit by hand only if something changes (new budget, moved city, etc.).
+Boris fills this in during the first-run wizard (3 questions + auto-detect). After that he reads it every time and never asks again. Edit by hand only if something changes (new town, new business name, different budget).
 
-## Account
+## The 3 you give Boris
+- **Your name**: <first name>
 - **Business name**: <Their Business Name>
-- **City / region**: <Brighton, UK>
-- **Radius (miles)**: <25>
-- **Meta location key**: <resolved via search_geo_locations>
+- **Town**: <Swindon, UK>
+- **Radius (miles)**: <17>
+
+## What Boris worked out himself
+- **Meta location key**: <resolved via Meta MCP geo search>
 - **Meta ad account**: <act_XXXXXXXXX>
 - **Currency**: <GBP>
 - **Facebook Page ID**: <numeric>
 - **Instagram username**: <@theirhandle>
 - **Instagram user ID**: <numeric>
-- **Meta business verified**: <yes | no | not-sure>
 
 ## Budgets
 - **Cold daily budget**: <£20>
-- **Retargeting daily budget**: <£5>
-- **Warm funnel daily budget**: <£5>
+- **Retargeting daily budget**: <£5> (built only when you ask)
+- **Warm funnel daily budget**: <£5> (built only when you ask)
 
 ## Daily check-in
 - **Daily pulse**: <email | none>
 - **Pulse email address**: <them@theirdomain.com>
-- **Pulse delivery**: <gmail-mcp | local-file>
+- **Pulse delivery**: <gmail | local-file>
 
-## Pipeboard
-- **Plan**: <free | pro>
+## MCP in use
+- **MCP**: <meta-ads (official) | pipeboard (fallback)>
 
-## Their best organic reels (last 90 days)
-<Boris auto-fills: shortcode - views - caption snippet. Refresh every few weeks.>
+## Their top organic reels (last 90 days)
+<Boris auto-fills the top 10 each scan: shortcode - views - caption snippet. Refresh every few weeks.>
 
 ## Live campaigns
 <Boris auto-fills as he builds: campaign name - ID - status - budget.>

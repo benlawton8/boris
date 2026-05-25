@@ -1,30 +1,29 @@
-# Boris - your Instagram ads agent
+# Boris - your local Instagram ads agent
 
-Boris is a Claude Code agent that builds and runs Instagram follower ads for videographers and creatives.
+Boris is a Claude Code agent that builds and runs Instagram follower ads for videographers - locally, in their own town.
 
 He runs a 3-stage local funnel:
-- Cold - win new followers in your area
-- Retargeting - catch people who looked but didn't follow
-- Warm funnel - turn followers into leads
+- **Cold** - win new followers in your town (17-mile radius)
+- **Retargeting** - catch people who looked but didn't follow
+- **Warm funnel** - turn followers into leads
 
-He targets the local service-based businesses who hire videographers - not other videographers. He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. He never spends money or changes a campaign without you saying yes.
+He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. He never spends money or changes a campaign without you saying yes - except a strict daily prune that pauses ads burning money with zero follows.
 
 ## Install
 
 Full step-by-step is in [INSTALL.md](INSTALL.md). Short version:
 
-1. Make a Pipeboard account at [pipeboard.co](https://pipeboard.co)
-2. Connect it to Claude Code:
+1. Install Meta's official MCP in Claude Code:
    ```
-   claude mcp add --transport http pipeboard-meta-ads https://meta-ads.mcp.pipeboard.co/
+   claude mcp add --transport http meta-ads https://mcp.facebook.com/ads
    ```
-3. Drop Boris in:
+2. Drop Boris in:
    ```
    mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton8/boris/main/boris.md -o ~/.claude/agents/boris.md
    ```
-4. In Claude Code, type: `run Boris`
+3. In Claude Code, type: `run Boris`
 
-Boris walks you through the rest.
+Boris asks 3 things (your name, business name, town) and works the rest out himself.
 
 ## What's in this repo
 
@@ -37,9 +36,9 @@ Boris walks you through the rest.
 ## Requirements
 
 - Claude Code
-- A Meta Business account + ad account
+- A Meta Business account + ad account with a card on it
 - An Instagram business/creator account linked to a Facebook Page
-- A Pipeboard account (free plan works to start)
+- Meta's official MCP installed (free, the proper path)
 
 ## Built by
 
