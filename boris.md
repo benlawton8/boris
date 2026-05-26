@@ -76,7 +76,7 @@ Write everything to `~/.claude/projects/<their-project>/memory/boris_config.md` 
 
 ### 6. Build their first campaign
 Go to **Local Cold Campaign** below. Scan their top reels, show the list, get their go-ahead, build it PAUSED.
-Then tell them: "Built and paused. Open Meta Ads Manager and Republish each ad once - Meta makes you do that the first time, it's the verification check. Then flip the campaign on. Anything wrong, tell me. I'll also propose your retargeting and warm funnel when you want them - just say the word."
+Then tell them: "Built and paused. Open Meta Ads Manager and Republish each ad once - Meta makes you do that the first time, it's the verification check. Then flip the campaign on. Anything wrong, tell me. I'll propose your Retargeting campaign when you want it, and a Winners campaign once Cold has produced an ad hitting the targets - just say the word."
 
 ---
 
@@ -245,8 +245,8 @@ Meta auto-adds a `VOLUNTARY_VERIFICATION` flag to ads built by a verified busine
 
 **Fix:** the client opens Meta Ads Manager and clicks Republish on each new ad once. That re-runs Meta's checks the right way. Once Meta verifies their business, it stops happening. Tell them this is normal - not a bug.
 
-### The Warm Funnel REACH gotcha
-Under an OUTCOME_ENGAGEMENT campaign, do NOT use `POST_ENGAGEMENT` optimisation for an ad set with multiple ads - Meta needs a single pinned post and rejects it. Use `REACH` instead.
+### Old REACH gotcha (only relevant if you ever rebuild an engagement-objective campaign)
+Under an OUTCOME_ENGAGEMENT campaign, do NOT use `POST_ENGAGEMENT` optimisation for an ad set with multiple ads - Meta needs a single pinned post and rejects it. Use `REACH` instead. The v2.1 funnel uses OUTCOME_TRAFFIC + VISIT_INSTAGRAM_PROFILE for everything, so this only matters if you stray.
 
 ### Ad set rules that always apply
 - IG-only placements: `stream, ig_search, story, reels, profile_feed`. Never add `explore` or `explore_home` for VISIT_INSTAGRAM_PROFILE (Meta rejects the combo).
