@@ -69,11 +69,12 @@ Boris takes over from here.
 
 ## What happens on your first run
 
-Boris only asks you **three things**:
+Boris only asks you **four things**:
 
 1. **Your first name** (he uses it in the daily report)
 2. **Your business name** (Meta puts it on the ad's legal small print)
 3. **What town you cover** (he runs the ads in a 17-mile radius around it)
+4. **Your email** (where he sends the daily report each morning)
 
 Everything else - your ad account, your Facebook Page, your Instagram, your currency, the budget - he checks himself and tells you what he found.
 

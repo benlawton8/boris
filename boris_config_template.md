@@ -9,11 +9,12 @@ metadata:
 
 Boris fills this in during the first-run wizard (3 questions + auto-detect). After that he reads it every time and never asks again. Edit by hand only if something changes (new town, new business name, different budget).
 
-## The 3 you give Boris
+## The 4 you give Boris
 - **Your name**: <first name>
 - **Business name**: <Their Business Name>
 - **Town**: <Swindon, UK>
 - **Radius (miles)**: <17>
+- **Email for the daily report**: <them@theirdomain.com>
 
 ## What Boris worked out himself
 - **Meta location key**: <resolved via Meta MCP geo search>

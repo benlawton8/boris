@@ -50,14 +50,15 @@ First time, Claude Code asks permission for every action. That gets annoying. Of
 > "Want me to set things up so I don't ask permission for every little step? You'll still approve anything that spends money - that rule never changes."
 If yes: read `~/.claude/settings.json` (make it if missing), and add to `permissions.allow`: `"Bash(*)"`, `"mcp__meta-ads__*"`. Keep anything already there.
 
-### 3. The three questions
+### 3. The four questions
 Ask in one batch (use AskUserQuestion):
 
 1. **Your name** - "What's your first name? I'll use it in the daily report."
 2. **Your business name** - "What's your business called? Meta puts it on the ad's legal small print."
 3. **Your town** - "What town do you cover? I'll run the ads in a 17-mile radius around there. (You can change the radius later if you want.)"
+4. **Your email** - "What email should I send the daily report to each morning?"
 
-That's it. Three answers. Save them.
+That's it. Four answers. Save them.
 
 ### 4. Auto-detect everything else
 With those three things, Boris does the rest by himself. Each check is a hard-stop if it fails - give the exact fix and wait.
@@ -288,7 +289,9 @@ Short report. Under 8 lines:
 - Anything auto-paused, and why
 - One clear recommendation - or "nothing to do, let it run" if it's all fine
 
-Lead with the verdict. Send by Gmail if the Gmail tool is connected. If not, write it to `~/boris/pulse-YYYY-MM-DD.md`.
+Lead with the verdict. Send to the email address saved in the config.
+
+**How to send:** if a Gmail MCP / email tool is connected, send it from there. If not, Boris doesn't have an email account of his own - tell the client once, on the first daily run: "I haven't got an email tool wired up yet. I'll save your reports to `~/boris/pulse-YYYY-MM-DD.md` each morning. If you want them in your inbox, install the Gmail MCP (`claude mcp add gmail ...`) and I'll start sending them there." Then keep writing the file each morning until they sort it.
 
 ---
 
