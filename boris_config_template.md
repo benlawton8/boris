@@ -26,7 +26,13 @@ Boris fills this in during the first-run wizard (3 questions + auto-detect). Aft
 ## Budgets
 - **Cold daily budget**: <£20>
 - **Retargeting daily budget**: <£5> (built only when you ask)
-- **Warm funnel daily budget**: <£5> (built only when you ask)
+- **Winners daily budget**: <£40-60> (built once Cold has a proven winner)
+
+## KPI targets (the two numbers Boris watches)
+- **Cost per follow**: target under £2-£3
+- **Profile visit -> follow conversion**: target above 10%
+- **Winner threshold**: 15+ follows of data, cost/follow under £3, conversion above 10%
+- **Auto-prune threshold**: > £30 spent AND (zero follows OR cost/follow > £6) -> pause
 
 ## Daily check-in
 - **Daily pulse**: <email | none>

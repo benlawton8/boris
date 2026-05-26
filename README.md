@@ -2,12 +2,12 @@
 
 Boris is a Claude Code agent that builds and runs Instagram follower ads for videographers - locally, in their own town.
 
-He runs a 3-stage local funnel:
+He runs a simple local funnel:
 - **Cold** - win new followers in your town (17-mile radius)
-- **Retargeting** - catch people who looked but didn't follow
-- **Warm funnel** - turn followers into leads
+- **Retargeting** - stay in front of the warm pool (90-day engagers + existing followers)
+- **Winners** - scale what's already working (built after Cold proves a winner)
 
-He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. He never spends money or changes a campaign without you saying yes - except a strict daily prune that pauses ads burning money with zero follows.
+He reads your own Instagram reels for ad ideas, watches your spend, and emails you a short daily report. The two numbers he watches: cost per follow under £2-£3, and profile visit → follow above 10%. He never spends money or changes a campaign without you saying yes - except a strict daily prune that pauses ads burning money with no follows.
 
 ## Install
 

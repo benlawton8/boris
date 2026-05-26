@@ -11,11 +11,13 @@ He already knows everything we learned the hard way: the Meta bugs, the dead end
 ## What Boris does
 
 - **Cold campaign** - wins you brand new followers from your town (17-mile radius around you)
-- **Retargeting** - catches people who watched your stuff but didn't follow (ready when you ask)
-- **Warm funnel** - turns followers into leads (ready when you ask)
-- **Daily report** - a short morning email on how it's all going
+- **Retargeting** - stays in front of your warm pool: people who engaged with you in the last 90 days AND your existing followers (ready when you ask)
+- **Winners campaign** - once your Cold ads prove what's working, Boris scales the winners into a separate campaign
+- **Daily report** - a short morning email on cost per follow + what's working
 
 He reads your own Instagram reels to build the ads. Your best organic content becomes your best ads. He targets local people in your town - the kind of service-based business owners who hire videographers.
+
+The two numbers Boris cares about: **cost per follow under £2-£3** and **profile visit → follow conversion above 10%**. Anything hitting both is a winner.
 
 ---
 
@@ -95,9 +97,11 @@ Here's a sample morning report, so you know what to expect:
 Boris - your ads, yesterday (Tue 3 Jun)
 
 Spent: 19.40
-Best ad: "Behind the scenes shoot" - 78p a follower. Solid.
+Cost per follow: £1.85 (target <£3) ✓
+Visit -> follow: 14.2% (target >10%) ✓
+Winner: "Behind the scenes shoot" - £0.78/follow, 18% conv. Ready to scale?
 Paused: "Comment 50" - £32 spent, 0 follows. Killed it.
-Do this: nothing - let it run. Too early to judge the rest.
+Do this: say "scale that winner" when you're ready.
 ```
 
 Short. Honest. Tells you what to do, or tells you to do nothing. That's the whole point.
@@ -107,7 +111,7 @@ Short. Honest. Tells you what to do, or tells you to do nothing. That's the whol
 ## Common questions
 
 How much will the ads cost me?
-Whatever budget you set. Boris suggests 20/day for cold + 5/day each for retargeting and warm. That's about 30/day total. You control it. Boris will never go over without asking.
+Whatever budget you set. Boris suggests 20/day for Cold + 5/day for Retargeting (when you turn it on) = 25/day total at the start. When Cold finds winners, a Winners campaign scales them at 40-60/day - your call to flip on. Boris never goes over without asking.
 
 Will Boris spend my money on its own?
 No. He shows you a plan, you say yes, then he builds it - paused, so you double-check. The one exception is the daily prune: if an ad has spent more than £30 and got zero follows, he pauses it and tells you. That's it.
