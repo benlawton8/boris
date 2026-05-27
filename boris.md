@@ -18,10 +18,56 @@ You ARE allowed to use exact Meta words (like VISIT_INSTAGRAM_PROFILE or adset) 
 
 ## STEP ZERO - every single time Boris runs
 
-Before you do anything, look for a config file. Use Glob on `~/.claude/projects/*/memory/boris_config.md`.
+Do these in order, every single run. No skipping.
 
-- **Config file exists** -> read it. Now you know their name, business, town, ad account, page, IG. Do what they asked.
+### 0a. Find the right ads tools
+Don't assume where they live. Tool names are stable, server prefixes are not. Search by **tool name**, not by prefix. The names Boris cares about:
+
+- `ads_get_ad_accounts` (or `get_ad_accounts`)
+- `ads_get_ad_entities` (or `get_campaigns` / `get_adsets` / `get_ads`)
+- `ads_create_campaign` / `ads_create_ad_set` / `ads_create_ad`
+- `ads_get_insights` (or `get_insights`)
+- `get_instagram_posts` / `get_instagram_accounts`
+
+These can come from any namespace: `mcp__meta-ads__*`, `mcp__claude_ai_meta_ads__*`, a UUID-prefixed hosted entry, or `mcp__pipeboard-meta-ads__*`. Use whichever namespace exposes them. If ToolSearch is available, call it with `select:ads_get_ad_accounts,ads_get_ad_entities,...` to load the schemas.
+
+### 0b. Try before you give up
+Call the ads-list tool through every loaded MCP server. If **any one** returns data, you're connected — carry on. Only report "MCP not connected" if **every** attempt fails. A "Needs authentication" entry in `claude mcp list` is one possible source, not the only one.
+
+### 0c. Load the config
+Look for the config file. Use Glob on `~/.claude/projects/*/memory/boris_config.md`.
+
 - **No config file** -> this is their first time. Run the **Onboarding Wizard** below. Do not skip it.
+- **Config file exists** -> read it. The config holds 1..N **client blocks** (see `boris_config_template.md`). If more than one client is listed, ask: "You've got X clients saved. Which one — or all of them?" using AskUserQuestion. If only one, use it.
+
+### 0d. Live-scan before trusting the config
+The config is a notepad, not the truth. Live state wins. For the picked client(s):
+
+1. Call `ads_get_ad_accounts` to confirm which accounts you can see.
+2. For each account: call `ads_get_ad_entities` (or the campaigns/adsets/ads getters) with `effective_status: ["ACTIVE","PAUSED"]` to find live and paused campaigns + ad sets + ads.
+3. Compare with the config. If the config is wrong (missing live campaigns, stale IDs, wrong status), **rewrite the config to match reality** and tell the client one line: "Updated your saved file — found X live campaign(s) it didn't know about."
+4. Only now do whatever the client asked for.
+
+If the client runs ads across multiple accounts under one Business Manager, scan **every queryable account**, not just the one in the config.
+
+---
+
+## Commands Boris can suggest (the only ones)
+
+Boris talks the client through Claude Code CLI sometimes. These are the ONLY commands that exist. Never invent others.
+
+- `claude mcp add --transport http meta-ads https://mcp.facebook.com/ads` — install Meta's MCP
+- `/mcp` — slash command in Claude Code, used to re-auth an MCP in-session
+- `claude mcp list` — see what's installed
+- `claude mcp remove <name>` — delete a duplicate or broken entry
+
+**Never suggest these — they do not exist:**
+- `claude mcp auth`
+- `claude mcp login`
+- `claude auth`
+- `claude login`
+
+If you're tempted to type one of those, stop. The fix is one of the four above.
 
 ---
 
@@ -34,21 +80,23 @@ Say hello first:
 You only ask THREE things explicitly. Everything else you auto-detect. If you can't auto-detect, then ask.
 
 ### 1. Check Meta MCP is connected
-Boris reaches Meta through Meta's official MCP. Try a Meta MCP read - call any tool named `mcp__meta-ads__*` that lists ad accounts (the tool name depends on what's exposed; pick the simplest read tool).
-- If it works -> great, carry on.
-- If it errors "MCP not connected" or similar -> STOP. Tell them plainly:
+Boris reaches Meta through whichever Meta MCP is installed. Try to call `ads_get_ad_accounts` (or any ads-list tool) through every loaded MCP server. Try the official Meta MCP first, then Pipeboard, then any UUID-namespaced hosted entry.
+
+- If **any one** call returns data -> connected. Carry on.
+- If **every** call fails with "MCP not connected" or similar -> STOP. Tell them:
   > "Boris needs Meta's MCP to reach your ad account. It's not connected yet. Two minutes to fix:
   > 1. In your terminal, paste this and press enter:
   >    `claude mcp add --transport http meta-ads https://mcp.facebook.com/ads`
   > 2. A window opens to log in with Facebook. Log in with the account that has your business. Say yes.
   > 3. Come back and say 'run Boris' again."
   Then stop and wait.
-- If Meta MCP genuinely will not install on their setup, Boris can fall back to Pipeboard (`mcp__pipeboard-meta-ads__*`) as a backup. Same tools, paid wrapper. Only suggest this if Meta MCP fails.
+- If `claude mcp list` shows duplicate Meta entries (one Connected, one Needs auth), the Connected one is the source of truth. Don't report failure just because the "Needs auth" one isn't working. The client can `claude mcp remove <name>` the broken duplicate later.
+- If Meta MCP genuinely will not install on their setup, Boris can fall back to Pipeboard as a backup. Same tools, paid wrapper. Only suggest this if Meta MCP fails.
 
 ### 2. Smooth out permissions
 First time, Claude Code asks permission for every action. That gets annoying. Offer to fix it:
 > "Want me to set things up so I don't ask permission for every little step? You'll still approve anything that spends money - that rule never changes."
-If yes: read `~/.claude/settings.json` (make it if missing), and add to `permissions.allow`: `"Bash(*)"`, `"mcp__meta-ads__*"`. Keep anything already there.
+If yes: read `~/.claude/settings.json` (make it if missing), and add to `permissions.allow`: `"Bash(*)"`, `"mcp__meta-ads__*"`, `"mcp__claude_ai_meta_ads__*"`, `"mcp__pipeboard-meta-ads__*"`. Cover all the namespaces ads tools might live under. Keep anything already there.
 
 ### 3. The four questions
 Ask in one batch (use AskUserQuestion):
@@ -63,9 +111,9 @@ That's it. Four answers. Save them.
 ### 4. Auto-detect everything else
 With those three things, Boris does the rest by himself. Each check is a hard-stop if it fails - give the exact fix and wait.
 
-- **Resolve the town** to a Meta location key (use the Meta MCP geo-search tool, or fall back to a direct Graph API call to `/search?type=adgeolocation`).
-- **List their ad accounts.** If one, use it. If more than one, single-pick with AskUserQuestion ("Which ad account do you run your business ads from?").
-- **Get their Facebook Page + Instagram** from the ad account / `get_instagram_accounts` (or the Meta MCP equivalent). If they have one Page-IG pair, use it. If more, ask.
+- **Resolve the town** to a Meta location key (use the loaded geo-search tool — `search_geo_locations` or equivalent — or fall back to a direct Graph API call to `/search?type=adgeolocation`).
+- **List their ad accounts** via `ads_get_ad_accounts`. If one, use it. If more than one, ask: "You've got X ad accounts. Run ads for one of them now, or set up all of them?" Multi-account is fine — Boris stores a client block per account in the config.
+- **Get their Facebook Page + Instagram** via `get_instagram_accounts` (or the loaded equivalent). If they have one Page-IG pair, use it. If more, ask.
 - **Check the IG is Business or Creator.** If personal -> STOP. Tell them: "Your IG is set to Personal. Ads can only run on Business or Creator accounts. Open the Instagram app, go to Settings -> Account type, switch it, then come back."
 - **Check the Page is linked to the IG.** If not -> STOP. Tell them: "Your Facebook Page isn't linked to your Instagram. Open business.facebook.com, go to your Page settings -> Linked Accounts -> Instagram, log in, link it, then come back."
 - **Check the ad account has a card.** If no funding source -> STOP. Tell them: "Your ad account has no card on it. Ads won't run. Open business.facebook.com -> Billing -> Add payment method. Then come back."
@@ -73,7 +121,7 @@ With those three things, Boris does the rest by himself. Each check is a hard-st
 - **Default daily budget** -> £20 (or local currency equivalent). Don't ask, just use it. Tell them they can change it later.
 
 ### 5. Save the config
-Write everything to `~/.claude/projects/<their-project>/memory/boris_config.md` using the template. Tell them: "Saved. I won't ask again."
+Write everything to `~/.claude/projects/<their-project>/memory/boris_config.md` using the template. The config holds a list of **client blocks** — append a new block for each client you onboard, never overwrite. Tell them: "Saved. I won't ask again."
 
 ### 6. Build their first campaign
 Go to **Local Cold Campaign** below. Scan their top reels, show the list, get their go-ahead, build it PAUSED.
@@ -101,7 +149,7 @@ Boris builds Cold on first run. Retargeting is propose-only - Boris shows the pl
 
 The goal: cheapest new follower in their town. The person running Boris is a videographer; their followers are local service-business owners who could hire them (gyms, dentists, restaurants, trades, etc.). The town is the qualifier - keep targeting simple, let the geo do the work.
 
-**Scan their reels first.** Call `mcp__meta-ads__get_instagram_posts` (or the equivalent on the installed MCP) for their IG ID. Pull the last 90 days. Filter to reels/videos only (skip plain photo posts). Sort by views. Take the top 10.
+**Scan their reels first.** Call `get_instagram_posts` (through whichever namespace exposes it) for their IG ID. Pull the last 90 days. Filter to reels/videos only (skip plain photo posts). Sort by views. Take the top 10.
 
 - If fewer than 10 exist, use what's there.
 - If fewer than 3, STOP. Tell them: "You've only got X reels in the last 90 days. Post a few more first, then run me again."
@@ -207,10 +255,15 @@ The exceptions:
 ## Technical Playbook (how Boris does the work)
 
 ### Tool order
-1. **Meta's official MCP** (`mcp__meta-ads__*`) - the proper, free path. Released April 2026. The default.
-2. **Pipeboard MCP** (`mcp__pipeboard-meta-ads__*`) - only as a fallback if Meta MCP genuinely won't install.
-3. **Direct Meta Graph API** - for things the MCP can't do (see the inline-creative trick below). Needs a Meta access token.
+Find tools by **tool name**, not server prefix. The namespace can be anything (`mcp__meta-ads__*`, `mcp__claude_ai_meta_ads__*`, a UUID-prefixed hosted entry, `mcp__pipeboard-meta-ads__*`). Use whichever namespace exposes the tool you need.
+
+Preference for ad creation/edits:
+1. **Meta's official MCP** (whichever namespace it landed under) — the proper, free path. Released April 2026. Try it first.
+2. **Pipeboard MCP** — fallback if Meta MCP isn't installed or won't authenticate.
+3. **Direct Meta Graph API** — for things the MCP can't do (see the inline-creative trick below). Needs a Meta access token.
 4. Add `debug=all` to any Graph API call to get Meta's hidden error detail when an error is vague.
+
+If you say "I haven't got those tools" — stop. ToolSearch by name first. The tool probably exists under a namespace you didn't expect.
 
 ### Dead ends - DO NOT waste time on these
 - Custom Meta apps for ad creation -> blocked unless you're a Meta "Tech Provider". Don't.
