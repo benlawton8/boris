@@ -53,6 +53,19 @@ If only one client exists, Boris uses it. If more than one, he asks: "Which clie
 **MCP in use**
 - **MCP**: <meta-ads (official) | pipeboard (fallback) | other namespace>
 
+**Meta access token**
+- **Token path**: `~/.claude/projects/<project>/memory/boris_secrets.env` (key `META_TOKEN_<slug>`). Never paste the token into this file. Boris reads it from the env file at runtime. System User token preferred (non-expiring), with `ads_management`, `ads_read`, `business_management`, `pages_*`, `instagram_*` scopes.
+
+**Known account facts** (auto-filled by Boris as he discovers them — saves re-discovering each run)
+- **GBP min campaign_spend_cap**: 10000 pence (£100). Other currencies: assume equivalent until proven otherwise.
+- **Audience-read MCP rolled out for this account**: <yes | no> (irrelevant — Boris uses Graph API direct either way, but useful to know)
+- **Business verification status**: <verified | pending | unknown> (if pending, all new ads need UI Republish for the Voluntary Verification flag)
+
+**Confirmed audiences** (auto-filled from live audience reads)
+| Name | ID | Subtype | Size bucket | Last updated | Health |
+|---|---|---|---|---|---|
+| <e.g. IG Engagers 90d> | <120...> | ENGAGEMENT | <Medium> | <YYYY-MM-DD> | <Ready | Stale | Building> |
+
 **Their top organic reels (last 90 days)**
 <Boris auto-fills the top 10 each scan: shortcode - views - caption snippet. Refresh every few weeks.>
 

@@ -13,17 +13,22 @@ He reads your own Instagram reels for ad ideas, watches your spend, and emails y
 
 Full step-by-step is in [INSTALL.md](INSTALL.md). Short version:
 
-1. Install Meta's official MCP in Claude Code:
+1. Install Meta's official MCP:
    ```
    claude mcp add --transport http meta-ads https://mcp.facebook.com/ads
    ```
-2. Drop Boris in:
+2. Save a Meta access token so Boris can use Graph API direct (see INSTALL.md Step 2 — takes 2 mins).
+3. Install the Gmail MCP (for the daily report):
+   ```
+   claude mcp add gmail npx -y @gongrzhe/server-gmail-autoauth-mcp
+   ```
+4. Drop Boris in:
    ```
    mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton8/boris/main/boris.md -o ~/.claude/agents/boris.md
    ```
-3. In Claude Code, type: `run Boris`
+5. In Claude Code, type: `run Boris`
 
-Boris asks 3 things (your name, business name, town) and works the rest out himself.
+Boris asks 4 things (your name, business name, town, email) and works the rest out himself.
 
 ## What's in this repo
 
@@ -39,6 +44,8 @@ Boris asks 3 things (your name, business name, town) and works the rest out hims
 - A Meta Business account + ad account with a card on it
 - An Instagram business/creator account linked to a Facebook Page
 - Meta's official MCP installed (free, the proper path)
+- A Meta System User access token (free, 2-min setup — needed for the Graph API gaps the MCP doesn't cover)
+- The local Gmail MCP installed (free, for the daily report)
 
 ## Built by
 

@@ -31,7 +31,7 @@ That's it. Don't have an ad account? Make one free at business.facebook.com firs
 
 ---
 
-## Setup - 3 steps, about 5 minutes
+## Setup - 5 steps, about 10 minutes
 
 ### Step 1 - Install Meta's official MCP
 
@@ -45,7 +45,39 @@ A window pops up to log in with Facebook. Use the account that owns your busines
 
 That's the same Meta system you log into at business.facebook.com - just connected to Claude Code now.
 
-### Step 2 - Drop Boris in
+### Step 2 - Give Boris a Meta access token
+
+Meta's MCP has gaps. Some operations (reading audience details, creating engagement audiences, deleting things properly) only work via Meta's raw Graph API. Boris needs an access token to use it.
+
+This is a 2-minute one-off:
+
+1. Go to https://business.facebook.com/settings/system-users
+2. Click "Add" → name it "Boris" → role: Admin
+3. Click "Generate New Token" → pick your app → check these scopes: `ads_management`, `ads_read`, `business_management`, `pages_show_list`, `pages_read_engagement`, `instagram_basic`, `instagram_manage_insights`
+4. Pick "Never" for expiry
+5. Copy the token
+
+Then in your terminal:
+
+```
+mkdir -p ~/.claude/projects/boris/memory && echo 'META_TOKEN=<paste-token-here>' > ~/.claude/projects/boris/memory/boris_secrets.env && chmod 600 ~/.claude/projects/boris/memory/boris_secrets.env
+```
+
+Boris reads this file at runtime. The token is stored locally — never leaves your machine.
+
+### Step 3 - Install the Gmail MCP (so Boris can email your daily report)
+
+Boris sends a short morning report to your inbox. He uses the local Gmail MCP for this:
+
+```
+claude mcp add gmail npx -y @gongrzhe/server-gmail-autoauth-mcp
+```
+
+Browser opens. Log into the Google account you want the reports sent from. Say yes. Done.
+
+(If you skip this step, Boris will save the daily report to a file on your machine instead — still useful, just not in your inbox.)
+
+### Step 4 - Drop Boris in
 
 Boris is one file. Copy this one line, paste it in your terminal, press enter:
 
@@ -55,7 +87,7 @@ mkdir -p ~/.claude/agents && curl -s https://raw.githubusercontent.com/benlawton
 
 No files to make, no copy-pasting big blocks of text. One line and Boris is in.
 
-### Step 3 - Run Boris
+### Step 5 - Run Boris
 
 Open Claude Code and type:
 
